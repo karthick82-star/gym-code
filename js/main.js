@@ -1,8 +1,6 @@
-// ====== Gym WhatsApp Number (Configure here or leave blank to open WhatsApp chat directly) ======
-const WHATSAPP_NUMBER = "";
-const wa = (text) => WHATSAPP_NUMBER 
-  ? `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`
-  : `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+// ====== Gym WhatsApp Number ======
+const WHATSAPP_NUMBER = "919751345134";
+const wa = (text) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
 const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
 // header: solid on scroll & mobile navigation drawer
@@ -67,13 +65,15 @@ if (form) {
   form.addEventListener("submit", e => {
     e.preventDefault();
     const name = form.name?.value?.trim() || "Visitor";
-    const address = form.address?.value?.trim() || "";
+    const phone = form.mobile?.value?.trim() || "";
     const program = form.program?.value || "General Gym Training";
     const message = form.message?.value?.trim() || "Please share membership details and timings.";
 
-    let text = `Hi Mr & Mrs Muscles Fitness Gym!\n*Name:* ${name}`;
-    if (address) text += `\n*Address:* ${address}`;
-    text += `\n*Interested Program:* ${program}\n*Message:* ${message}`;
+    const text = `Hi Mr & Mrs Muscles Fitness Gym!
+*Name:* ${name}
+*Phone:* ${phone}
+*Interested Program:* ${program}
+*Message:* ${message}`;
 
     open(wa(text), "_blank");
   });
