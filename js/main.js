@@ -1,5 +1,5 @@
-// ====== EDIT THIS: WhatsApp number with country code, digits only (e.g. 919876543210) ======
-const WHATSAPP_NUMBER = "";
+// ====== Gym WhatsApp Number ======
+const WHATSAPP_NUMBER = "919751345134";
 const wa = (text) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
 const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
@@ -36,8 +36,7 @@ $$(".reveal").forEach(el => io.observe(el));
 // WhatsApp buttons
 $$("[data-wa]").forEach(b => b.addEventListener("click", e => {
   e.preventDefault();
-  if (!WHATSAPP_NUMBER) return alert("Add the gym WhatsApp number in js/main.js (WHATSAPP_NUMBER).");
-  open(wa(b.dataset.wa || "Hi! I'd like to know more about Mr & Mrs Muscles Fitness Gym."), "_blank");
+  open(wa(b.dataset.wa || "Hi Mr & Mrs Muscles Fitness Gym! I'd like to enquire about membership and training."), "_blank");
 }));
 
 // timetable: highlight today
@@ -56,18 +55,26 @@ if (items.length) {
   addEventListener("keydown", e => { if (!lb.classList.contains("open")) return; if (e.key === "Escape") lb.classList.remove("open"); if (e.key === "ArrowLeft") show(cur - 1); if (e.key === "ArrowRight") show(cur + 1); });
 }
 
-// contact form: validate, then open WhatsApp / mailto-style fallback
+// direct WhatsApp enquiry helper
 const form = $("#enquiry");
 if (form) {
   const pre = new URLSearchParams(location.search);
-  if (pre.get("program")) form.program.value = pre.get("program");
-  if (pre.get("plan")) form.message.value = `I'm interested in the ${pre.get("plan")} membership.`;
-  const msg = () => `Hi! I'm ${form.name.value} (${form.mobile.value}). Interested in: ${form.program.value}. ${form.message.value}`;
-  const valid = () => { let ok = true;
-    $$(".field", form).forEach(f => { const i = $("input,select,textarea", f); const bad = i.required && !i.value.trim() || i.name === "mobile" && !/^[+\d][\d\s-]{6,}$/.test(i.value.trim()) || i.type === "email" && i.value && !/^\S+@\S+\.\S+$/.test(i.value);
-      f.classList.toggle("err", !!bad); if (bad) ok = false; }); return ok; };
-  form.addEventListener("submit", e => { e.preventDefault(); if (!valid()) return;
-    $(".form-ok").style.display = "block"; $(".form-ok").textContent = "Thank you! Your enquiry is ready — our team will contact you shortly.";
-    console.log("Enquiry:", Object.fromEntries(new FormData(form))); form.reset(); });
-  $("#wa-form").addEventListener("click", () => { if (!valid()) return; if (!WHATSAPP_NUMBER) return alert("Add the gym WhatsApp number in js/main.js (WHATSAPP_NUMBER)."); open(wa(msg()), "_blank"); });
+  if (pre.get("program") && form.program) form.program.value = pre.get("program");
+  if (pre.get("plan") && form.message) form.message.value = `I'm interested in the ${pre.get("plan")} membership.`;
+
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    const name = form.name?.value?.trim() || "Visitor";
+    const phone = form.mobile?.value?.trim() || "";
+    const program = form.program?.value || "General Gym Training";
+    const message = form.message?.value?.trim() || "Please share membership details and timings.";
+
+    const text = `Hi Mr & Mrs Muscles Fitness Gym!
+*Name:* ${name}
+*Phone:* ${phone}
+*Interested Program:* ${program}
+*Message:* ${message}`;
+
+    open(wa(text), "_blank");
+  });
 }
