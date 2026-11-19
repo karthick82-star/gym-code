@@ -40,7 +40,7 @@ $$("[data-wa]").forEach(b => b.addEventListener("click", e => {
 }));
 
 // timetable: highlight today
-const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"], today = days[new Date().getDay()];
+const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], today = days[new Date().getDay()];
 $$(".row[data-day]").forEach(r => { if (r.dataset.day === today) { r.classList.add("is-today"); $(".day", r).insertAdjacentHTML("beforeend", '<span class="today">Today</span>'); } });
 
 // gallery lightbox
