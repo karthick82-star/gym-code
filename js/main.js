@@ -1,5 +1,5 @@
 // ====== Gym WhatsApp Number ======
-const WHATSAPP_NUMBER = "919751345134";
+const WHATSAPP_NUMBER = "0000000000";
 const wa = (text) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
 const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
